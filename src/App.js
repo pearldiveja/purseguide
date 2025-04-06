@@ -4,27 +4,7 @@ const DecisionTree = () => {
   const [currentStep, setCurrentStep] = useState('start');
   const [history, setHistory] = useState([]);
 
-  // SVG Icons
-  const CheckIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 6 9 17l-5-5"/>
-    </svg>
-  );
-
-  const XIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 6 6 18M6 6l12 12"/>
-    </svg>
-  );
-
-  const ArrowIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M5 12h14M12 5l7 7-7 7"/>
-    </svg>
-  );
-
   const steps = {
-    // Your decision tree steps go here
     start: {
       question: "What type of purse are you authenticating?",
       options: [
@@ -33,7 +13,33 @@ const DecisionTree = () => {
         { text: "Dooney & Bourke", next: "db" }
       ]
     },
-    // Add more steps here...
+    coach: {
+      result: "✓ Authentic Coach",
+      detail: "Genuine Coach bags have:",
+      tips: [
+        "Crisp, deep stamping in leather",
+        "Symmetrical stitching pattern",
+        "YKK zipper pulls"
+      ]
+    },
+    mk: {
+      result: "✓ Authentic Michael Kors",
+      detail: "Genuine Michael Kors bags have:",
+      tips: [
+        "High-quality leather with even grain",
+        "MK logo hardware with clean edges",
+        "Serial number inside"
+      ]
+    },
+    db: {
+      result: "✓ Authentic Dooney & Bourke",
+      detail: "Genuine Dooney & Bourke bags have:",
+      tips: [
+        "Embossed logo on leather tag",
+        "Red, white, and blue registration card",
+        "Sturdy stitching and hardware"
+      ]
+    }
   };
 
   const handleOption = (option) => {
@@ -60,49 +66,30 @@ const DecisionTree = () => {
   return (
     <div className="decision-tree-app">
       <div className="decision-card">
-        <div className="card-header">
-          <h2>{step.question || step.result}</h2>
-          {step.info && <p className="info-text">{step.info}</p>}
-        </div>
-
-        {step.options ? (
-          <div className="options-container">
+        <h2>{step.question || step.result}</h2>
+        {step.detail && <p>{step.detail}</p>}
+        {step.tips && (
+          <ul>
+            {step.tips.map((tip, index) => (
+              <li key={index}>{tip}</li>
+            ))}
+          </ul>
+        )}
+        {step.options && (
+          <div>
             {step.options.map((option, index) => (
-              <button 
-                key={index}
-                onClick={() => handleOption(option)}
-                className="option-button"
-              >
-                <span className="option-text">
-                  {option.text}
-                </span>
-                <ArrowIcon />
+              <button key={index} onClick={() => handleOption(option)}>
+                {option.text}
               </button>
             ))}
           </div>
-        ) : (
-          <div className="result-container">
-            <div className={`result-header`}>
-              {step.result.includes('✓') ? (
-                <CheckIcon />
-              ) : (
-                <XIcon />
-              )}
-              <p>{step.detail}</p>
-            </div>
-          </div>
         )}
       </div>
-
       <div className="navigation-buttons">
         {history.length > 0 && (
-          <button onClick={handleBack} className="nav-button back-button">
-            ← Back
-          </button>
+          <button onClick={handleBack}>← Back</button>
         )}
-        <button onClick={handleReset} className="nav-button reset-button">
-          ↻ Start Over
-        </button>
+        <button onClick={handleReset}>↻ Start Over</button>
       </div>
     </div>
   );
