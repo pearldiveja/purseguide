@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Check, X, ArrowRight, RefreshCw, DollarSign, Info } from 'lucide-react';
 
 const DecisionTree = () => {
   const [currentStep, setCurrentStep] = useState('start');
